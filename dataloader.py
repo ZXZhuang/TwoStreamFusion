@@ -11,8 +11,7 @@ def trans_S():
                  transforms.Normalize((0.5, 0.5, 0.5), (0.5,0.5,0.5))])
 
 def trans_T():
-    return transforms.Compose([transforms.ToTensor(),
-                 transforms.Normalize((0.5, 0.5, 0.5), (0.5,0.5,0.5))])
+    return transforms.Compose([transforms.ToTensor()])
 
 def dataloader_S(minibatch_size, train):
     hmdb51_S = HMDB51(transform=trans_S(),
@@ -20,7 +19,7 @@ def dataloader_S(minibatch_size, train):
                     Spatial=True)
     dataloader_S = DataLoader(dataset=hmdb51_S,
                             batch_size=minibatch_size,
-                            num_workers=0,
+                            num_workers=2,
                             shuffle=True)
     return dataloader_S
 
@@ -30,6 +29,6 @@ def dataloader_T(minibatch_size, train):
                         Spatial=False)
     dataloader_T= DataLoader(dataset=hmdb51_T,
                             batch_size=minibatch_size,
-                            num_workers=0,
+                            num_workers=2,
                             shuffle=True)
     return dataloader_T

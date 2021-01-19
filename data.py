@@ -125,7 +125,7 @@ class HMDB51(Dataset):
         y = random.randrange(arr.shape[1] - self.crop_shape[1])
 
         #crop
-        arr = arr[x:x+self.crop_shape[0], y:y+self.crop_shape[1], :]
+        arr = arr[x:x+self.crop_shape[1], y:y+self.crop_shape[1], :]
         #flip
         if flip:
             arr = arr[:, ::-1, :]
@@ -149,6 +149,8 @@ class HMDB51(Dataset):
         elif self.Net_type == 'temporal':
             img = np.load(img)
             img = self.process_clip(img.astype(np.float32))
+
+
 
         if self.transform is not None:
             img = self.transform(img.copy())

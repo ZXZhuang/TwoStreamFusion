@@ -6,9 +6,9 @@ import numpy as np
 import torchvision
 
 
-minibatch_train = 10
+minibatch_train = 100
 minibatch_test = 10
-epoch_num = 100
+epoch_num = 1000
 save_net = 1
 BATCH_SIZE = 256
 EPOCHS = 1000
@@ -80,7 +80,7 @@ def train(net_S, net_T, pth):
 
         if (epoch % save_net) == 0:
             torch.save({'net_S_state_dict': net_S.state_dict(),
-                        'net_T_state_dict': net_T.state_dict()}, pth)
+                        'net_T_state_dict': net_T.state_dict()}, pth, _use_new_zipfile_serialization=False)
             print('Save Finished')
     print('Train Finished')
 
@@ -128,5 +128,5 @@ def main(mode, pretrained):
         test(net_S, net_T)
 
 if __name__ == '__main__':
-    #main('train', False)
+    #main('train', True)
     main('test', True)

@@ -141,3 +141,4 @@ cython_debug/
 hmdb51/
 __pycache__/
 save/
+data/
