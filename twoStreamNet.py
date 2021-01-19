@@ -86,6 +86,10 @@ def train(net_S, net_T, pth):
 
 def test(net_S, net_T):
     print('Test Start')
+    correct_S = 0
+    total_S = 0
+    correct_T = 0
+    total_T = 0
     loader_S, loader_T = dataloader_S(minibatch_test, train=False), dataloader_T(minibatch_test, train=False)
     for i, (data_S, data_T) in enumerate(zip(loader_S, loader_T), 1):
         (img_S, target_S), (img_T, target_T) = data_S, data_T
@@ -99,19 +103,27 @@ def test(net_S, net_T):
 
             result_S = [int(torch.argmax(output_S, 1)[j]) == int(target_S[j]) for j in range(len(target_S))]
             result_T = [int(torch.argmax(output_T, 1)[j]) == int(target_T[j]) for j in range(len(target_T))]
+            correct_S += sum(result_S)
+            correct_T += sum(result_T)
+            total_S += len(result_S)
+            total_T += len(result_T)
             accuracy_S = round((sum(result_S) / len(result_S)) * 100)
             accuracy_T = round((sum(result_T) / len(result_T)) * 100)
 
             print('Spatial : {:03}, accuracy:{:03}%'.format(i, accuracy_S), flush=True)
             print('Predicted   : ', ''.join('%s ' % classes[predicted_S[j]] for j in range(minibatch_test)))
             print('GroundTruth : ', ''.join('%s ' % classes[target_S[j]] for j in range(minibatch_test)))
-            imshow(torchvision.utils.make_grid(img_S.cpu(), nrow=5))
+            #imshow(torchvision.utils.make_grid(img_S.cpu(), nrow=5))
 
             print('Temporal: {:03}, accuracy:{:03}%'.format(i, accuracy_T), flush=True)
             print('Predicted   : ', ''.join('%s ' % classes[predicted_T[j]] for j in range(minibatch_test)))
             print('GroundTruth : ', ''.join('%s ' % classes[target_T[j]] for j in range(minibatch_test)))
             #imshow(torchvision.utils.make_grid(img_T.cpu(), nrow=5))
     print('Test Finish')
+    accuracy_S = round(correct_S / total_S *100)
+    accuracy_T = round(correct_T / total_T * 100)
+    print("Spatial's accuracy: {:03}".format(accuracy_S))
+    print("Temporal's accuracy: {:03}".format(accuracy_T))
 
 def main(mode, pretrained):
     pth = './save/SpatialTemporalNet.pth'
