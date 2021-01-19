@@ -9,7 +9,7 @@ import torchvision
 minibatch_train = 10
 minibatch_test = 10
 epoch_num = 100
-save_net = 10
+save_net = 1
 BATCH_SIZE = 256
 EPOCHS = 1000
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -110,14 +110,14 @@ def test(net_S, net_T):
             print('Temporal: {:03}, accuracy:{:03}%'.format(i, accuracy_T), flush=True)
             print('Predicted   : ', ''.join('%s ' % classes[predicted_T[j]] for j in range(minibatch_test)))
             print('GroundTruth : ', ''.join('%s ' % classes[target_T[j]] for j in range(minibatch_test)))
-            imshow(torchvision.utils.make_grid(img_T.cpu(), nrow=5))
+            #imshow(torchvision.utils.make_grid(img_T.cpu(), nrow=5))
     print('Test Finish')
 
 def main(mode, pretrained):
     pth = './save/SpatialTemporalNet.pth'
     net_S = SpatialNet().cuda()
     net_T = TemporalNet().cuda()
-    if pretrained == 'pretrained':
+    if pretrained:
         checkpoint = torch.load(pth)
         net_S.load_state_dict(checkpoint['net_S_state_dict'])
         net_T.load_state_dict(checkpoint['net_T_state_dict'])
@@ -129,4 +129,4 @@ def main(mode, pretrained):
 
 if __name__ == '__main__':
     #main('train', False)
-    main('test', 'pretrained')
+    main('test', True)

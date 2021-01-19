@@ -4,18 +4,14 @@ from torch.utils.data import DataLoader
 from data import HMDB51
 
 def trans_S():
-    return transforms.Compose([transforms.Resize(255),
-                 transforms.RandomCrop(224),
+    return transforms.Compose([transforms.RandomCrop(224),
                  transforms.RandomHorizontalFlip(0.5),
                  transforms.ColorJitter(brightness=0.4,contrast=0.4,saturation=0.4,hue=0.1),
                  transforms.ToTensor(),
                  transforms.Normalize((0.5, 0.5, 0.5), (0.5,0.5,0.5))])
 
 def trans_T():
-    return transforms.Compose([transforms.Resize(255),
-                 transforms.RandomCrop(224),
-                 transforms.RandomHorizontalFlip(0.5),
-                 transforms.ToTensor(),
+    return transforms.Compose([transforms.ToTensor(),
                  transforms.Normalize((0.5, 0.5, 0.5), (0.5,0.5,0.5))])
 
 def dataloader_S(minibatch_size, train):

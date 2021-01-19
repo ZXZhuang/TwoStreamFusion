@@ -6,7 +6,7 @@ class TemporalNet(nn.Module):
         super(TemporalNet, self).__init__()
         # input -> 2xLx224x224
         #卷积层1 7x7x96 卷积核大小7x7 步长2 输出通道数96
-        self.conv1 = nn.Conv2d(3, 96, kernel_size=7, stride=2)
+        self.conv1 = nn.Conv2d(18, 96, kernel_size=7, stride=2)
         #卷积层2 5x5x256 卷积核大小5x5 步长2 输出通道数256
         self.conv2 = nn.Conv2d(96, 256, kernel_size=5, stride=2)
         #卷积层3 3x3x512 卷积核大小3x3 步长1 输出通道数512
