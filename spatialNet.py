@@ -64,6 +64,4 @@ class SpatialNet(nn.Module):
         out = F.dropout(out)
 
         out = self.fc3(out)
-
-        out = F.softmax(out)
         return out
