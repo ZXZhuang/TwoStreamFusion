@@ -1,7 +1,7 @@
 import torch
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-from data import HMDB51
+from datal import HMDB51
 
 def trans_S():
     return transforms.Compose([transforms.RandomCrop(224),
@@ -13,8 +13,8 @@ def trans_S():
 def trans_T():
     return transforms.Compose([transforms.ToTensor()])
 
-def dataloader_S(minibatch_size, train):
-    hmdb51_S = HMDB51(transform=trans_S(),
+def dataloader(minibatch_size, train):
+    hmdb51_S = HMDB51(transform=(trans_S(), trans_T()),
                     train=train,
                     Spatial=True)
     dataloader_S = DataLoader(dataset=hmdb51_S,
@@ -22,13 +22,3 @@ def dataloader_S(minibatch_size, train):
                             num_workers=0,
                             shuffle=True)
     return dataloader_S
-
-def dataloader_T(minibatch_size, train):
-    hmdb51_T = HMDB51(transform=trans_T(),
-                        train=train,
-                        Spatial=False)
-    dataloader_T= DataLoader(dataset=hmdb51_T,
-                            batch_size=minibatch_size,
-                            num_workers=0,
-                            shuffle=True)
-    return dataloader_T

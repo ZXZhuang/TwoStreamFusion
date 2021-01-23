@@ -33,24 +33,26 @@ def imshow(img):
 
 def train(net, pth):
     print('Train start')
-    loader_S, loader_T = dataloader_S(minibatch_train, train=True), dataloader_T(minibatch_train, train=True)
+    loader = dataloader(minibatch_train, train=True)
     loss_function = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(net.parameters(), lr=learning_rate, momentum=0.9)
     for epoch in range(1, epoch_num):
-        for i, (data_S, data_T) in enumerate(zip(loader_S, loader_T), 1):
+        for i, data in enumerate(loader):
             # get the inputs
-            (img_S, target_S), (img_T, target_T) = data_S, data_T
-            img_S, target_S = img_S.cuda(), target_S.cuda()
-            img_T, target_T = img_T.cuda(), target_T.cuda()
+            (img, target, of) = data
+            img, target, of = img.cuda(), target.cuda(), of.cuda()
+            print(img)
+            print(of)
+            print(target)
 
             # zero the parameter gradients
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            output = net(img_S, img_T)
+            output = net(img, of)
             #print(output_S, target_S)
             #print(output_T, target_T)
-            loss = loss_function(output, target_S.to(DEVICE, dtype=torch.int64))
+            loss = loss_function(output, target.to(DEVICE, dtype=torch.int64))
             loss.backward()
             optimizer.step()
 
@@ -72,7 +74,7 @@ def train(net, pth):
                   .format(epoch, i, loss_T.item(), accuracy_T), end='    ', flush=True)
             '''
 
-            if i == len(loader_S):
+            if i == len(loader):
                 print()
             else:
                 print(end='\n')
