@@ -19,6 +19,6 @@ def dataloader(minibatch_size, train):
                     Spatial=True)
     dataloader_S = DataLoader(dataset=hmdb51_S,
                             batch_size=minibatch_size,
-                            num_workers=0,
+                            num_workers=8,
                             shuffle=True)
     return dataloader_S

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-minibatch_train = 10
+minibatch_train = 100
 minibatch_test = 10
 epoch_num = 1000
 save_net = 1
@@ -56,8 +56,8 @@ def train(net, pth):
             loss.backward()
             optimizer.step()
 
-            print(loss)
-
+            print('Net: [{:03}, {:03}] loss:{:.2f}'
+                  .format(epoch, i, loss.item()), end='    ', flush=True)
             # get the accuracies
             '''
             result_S = [int(torch.argmax(output_S, 1)[j]) == int(target_S[j]) for j in range(len(target_S))]
