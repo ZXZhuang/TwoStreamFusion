@@ -134,7 +134,7 @@ class HMDB51(Dataset):
         return arr
 
     def __len__(self):
-        return int(np.floor(len(self.data['image']) / (self.sequence_num - 1)))
+        return len(self.data['of']) * (self.sequence_num - 1)
 
     def __getitem__(self, idx):
         img = self.data['image'][idx]

@@ -39,11 +39,11 @@ def train(net, pth):
     for epoch in range(1, epoch_num):
         for i, data in enumerate(loader):
             # get the inputs
-            (img, target, of) = data
+            (img, of, target) = data
             img, target, of = img.cuda(), target.cuda(), of.cuda()
-            print(img)
-            print(of)
-            print(target)
+            # print(img)
+            # print(of)
+            # print(target)
 
             # zero the parameter gradients
             optimizer.zero_grad()
